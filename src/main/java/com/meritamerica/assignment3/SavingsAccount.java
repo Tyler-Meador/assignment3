@@ -6,6 +6,9 @@ import java.util.Date;
 
 public class SavingsAccount extends BankAccount{
 
+	SavingsAccount(double openingBalance){
+		super.balance = openingBalance;
+	}
 	
 	SavingsAccount(long accountNumber, double openingBalance, double interestRate, Date openedOn){
 		super.accountNumber = accountNumber;

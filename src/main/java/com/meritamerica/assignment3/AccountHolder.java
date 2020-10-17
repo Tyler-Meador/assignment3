@@ -1,9 +1,11 @@
 package com.meritamerica.assignment3;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
   
 
-public class AccountHolder {
+public class AccountHolder implements Comparable<AccountHolder>{
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -22,6 +24,18 @@ public class AccountHolder {
 		this.lastName = lastName;
 		this.SSN = ssn;
 		
+	}
+	
+	public void setNumberOfCheckingAccounts(int num) {
+		this.numberOfCheckingAccounts = num;
+	}
+	
+	public void setNumberofSavingsAccounts(int num) {
+		this.numberOfSavingsAccounts = num;
+	}
+	
+	public void setNumberofCDAccounts(int num) {
+		this.numberOfCDAccounts = num;
 	}
 	
 	public String getFirstName() {
@@ -234,7 +248,37 @@ public double getSavingsBalance() {
 		double total = 0;
 		total = getCheckingBalance() + getSavingsBalance() + getCDBalance();
 		return total;
-	};
+	}
 
+	@Override
+	public int compareTo(AccountHolder o) {
+		
+		if(this.getCombinedBalance() > o.getCombinedBalance()) {
+			return 1;
+		}else {
+			return -1;
+		}
+		
+	};
+	
+	public String writeToString() {
+		return lastName + "," + middleName + "," + firstName + "," + SSN;
+	}
+
+	
+	public static AccountHolder readFromString(String accountData) throws Exception{
+		String delimiter = ",";
+		AccountHolder tempAccount = null;
+		
+		try {
+			String[] attributes = accountData.split(delimiter);
+			
+			tempAccount = new AccountHolder(attributes[0], attributes[1], attributes[2], attributes[3]);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return tempAccount;
+	}
 	
 }

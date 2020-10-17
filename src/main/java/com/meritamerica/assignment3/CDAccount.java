@@ -9,7 +9,11 @@ public class CDAccount extends BankAccount{
 	
 	
 	
-	//CDAccount is a constructor. It creates the object.
+	public CDAccount(CDOffering offering, double balance) {
+		this.myOffering = offering;
+		super.balance = balance;
+	}
+	
 	public CDAccount(CDOffering offering, double balance, long accountNumber, Date openedOn) {
 	   this.myOffering = offering;
 	   super.balance = balance;

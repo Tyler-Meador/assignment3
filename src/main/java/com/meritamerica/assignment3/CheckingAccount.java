@@ -7,7 +7,9 @@ import java.util.Date;
 public class CheckingAccount extends BankAccount{
 	
 	
-	
+	CheckingAccount(double openingBalance){
+		super.balance = openingBalance;
+	}
 	CheckingAccount(long accountNumber, double openingBalance, double interestRate, Date openedOn){
 		super.accountNumber = accountNumber;
 		super.balance = openingBalance;
