@@ -14,6 +14,8 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	private CheckingAccount[] checkingAccounts = new CheckingAccount[100];
 	private int numberOfCheckingAccounts = 0;
 	private int numberOfSavingsAccounts = 0;
+	private int savingsIndex = 0;
+	private int checkingIndex = 0;
 	private SavingsAccount[] savingsAccounts = new SavingsAccount[100];
 	private int numberOfCDAccounts = 0;
 	public CDAccount[] cdAccounts = new CDAccount[5];
@@ -92,14 +94,13 @@ public class AccountHolder implements Comparable<AccountHolder>{
 			//incomplete method
 			public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
 				if((getCheckingBalance() + getSavingsBalance()) < 250000) {
-					numberOfCheckingAccounts++;
 					
 					
 					
 			
-		}
-				
-				checkingAccounts[numberOfCheckingAccounts-1] = new CheckingAccount(checkingAccount.getBalance());
+				}
+				if(savingsAccounts[checkingIndex] == null)
+				checkingAccounts[checkingIndex++] = new CheckingAccount(checkingAccount.getBalance());
 				
 				return checkingAccounts [numberOfCheckingAccounts-1];
 		
@@ -124,8 +125,13 @@ public class AccountHolder implements Comparable<AccountHolder>{
 		for(int i=0; i<checkingAccounts.length; i++)
 		{
 			
-			if(checkingAccounts[i] != null)
-			balance += checkingAccounts[i].getBalance(); 
+			if(checkingAccounts[i] == null) {
+				return balance; 
+			}
+			else {
+				balance += checkingAccounts[i].getBalance();
+			}
+			
 		}
 		
 		return balance;
@@ -155,14 +161,16 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	
 	public SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
 		if((getCheckingBalance() + getSavingsBalance()) < 250000) {
-			numberOfSavingsAccounts++;
-					
+			
+			if(savingsAccounts[savingsIndex] == null)
+			savingsAccounts[savingsIndex++] = new SavingsAccount(savingsAccount.getBalance());
+			
 	
-}
+		}
 		
-		savingsAccounts[numberOfSavingsAccounts-1] = new SavingsAccount(savingsAccount.getBalance());
 		
-		return savingsAccounts [numberOfSavingsAccounts-1];
+		
+		return savingsAccounts [(numberOfSavingsAccounts)-1];
 
 
 }
@@ -182,8 +190,14 @@ public double getSavingsBalance() {
 		
 		for(int i=0; i<savingsAccounts.length; i++)
 		{
-			if(savingsAccounts[i] != null)
-			balance += savingsAccounts[i].getBalance(); 
+			
+			if(savingsAccounts[i] != null) {
+				System.out.println("savings 1: " + savingsAccounts[i].getBalance());
+				balance += savingsAccounts[i].getBalance(); 
+			}
+				
+			
+			
 		}
 		
 		return balance;
@@ -198,7 +212,7 @@ public double getSavingsBalance() {
 			if(cdAccounts [i] == null) {
 				cdAccounts [i] = tempCD;
 				numberOfCDAccounts++;
-				return null;
+				return cdAccounts[i];
 			}
 			
 		}
@@ -207,13 +221,13 @@ public double getSavingsBalance() {
 	}
 	
 	public CDAccount addCDAccount(CDAccount cdAccount) {
-		CDAccount tempCD = cdAccount;
 		for(int i = 0; i<cdAccounts.length; i++) {
 			if(cdAccounts [i] == null) {
-				cdAccounts [i] = tempCD;
+				cdAccounts [i] = cdAccount;
 				numberOfCDAccounts++;
-				return null;
+				return cdAccounts[i];
 			}
+			
 		}	
 		return null;
 	}

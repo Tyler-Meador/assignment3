@@ -6,9 +6,11 @@ import java.util.Date;
 
 public class CheckingAccount extends BankAccount{
 	
+	private double interestRate = .0001;
 	
 	CheckingAccount(double openingBalance){
 		super.balance = openingBalance;
+		super.interestRate = interestRate;
 	}
 	CheckingAccount(long accountNumber, double openingBalance, double interestRate, Date openedOn){
 		super.accountNumber = accountNumber;
@@ -34,6 +36,11 @@ public class CheckingAccount extends BankAccount{
 	
 	}
 	
+	public double futureValue(int years) {
+		return super.futureValue(years);
+		
+	}
+	
 
 	public String toString() {
 		
@@ -48,21 +55,20 @@ public class CheckingAccount extends BankAccount{
 		String delimiter = ",";
 		CheckingAccount tempAccount = null;
 		
-		try {
 			String[] attributes = accountData.split(delimiter);
+			
 			
 			long readNumber = Long.valueOf(attributes[0]);
 			double readBalance = Double.valueOf(attributes[1]);
+			System.out.println(readBalance);
 			double readInterestRate = Double.valueOf(attributes[2]);
 			
 			
-			Date date1 = new SimpleDateFormat("MM/dd/yyyy").parse(attributes[3]);
+			Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(attributes[3]);
 			Date readOpenedOn = date1;
 			
 			tempAccount = new CheckingAccount(readNumber, readBalance, readInterestRate, readOpenedOn);
-		}catch(java.lang.NumberFormatException e) {
-			System.out.println(e);
-		}
+
 		
 		return tempAccount;
 	}

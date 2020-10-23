@@ -106,9 +106,7 @@ public class MeritBank {
 	}
 	
 	public static long getNextAccountNumber() {
-		int temp = nextAccountNum;
-		nextAccountNum++;
-		return MeritHolders[temp].cdAccounts[temp].getAccountNumber();
+		return nextAccountNum;
 
 	}
 	 public static double totalBalances() {
@@ -144,7 +142,7 @@ public class MeritBank {
 		 int count = 0;
 		 while(iter.hasNext()) {
 			 switch(count) {
-			 case 0: nextAccountNum = (Integer.parseInt(iter.next())) - 1;
+			 case 0: nextAccountNum = (Integer.parseInt(iter.next()));
 			 		count++;
 			 case 1: numOfferings = Integer.parseInt(iter.next());
 			 		count++;
@@ -152,7 +150,9 @@ public class MeritBank {
 				 		for(int i = 0; i < numOfferings; i++) {
 				 			if(iter.hasNext()) {
 				 				tempOff[i] = CDOffering.readFromString(iter.next());
+				 				
 				 			}
+				 			MeritCD = tempOff;
 				 		}
 				 	count++;
 			 case 3: numAccountHolders = Integer.parseInt(iter.next());
@@ -160,21 +160,32 @@ public class MeritBank {
 			 case 4: AccountHolder[] tempAccs = new AccountHolder[numAccountHolders];
 			 			for(int i = 0; i < numAccountHolders; i++) {
 			 				if(iter.hasNext()) {
-			 					try {
-									tempAccs[i] = AccountHolder.readFromString(iter.next());
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
+			 					
+									try {
+										tempAccs[i] = AccountHolder.readFromString(iter.next());
+									} catch (Exception e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+								
 			 					if(iter.hasNext()) {
 			 						tempAccs[i].setNumberOfCheckingAccounts( Integer.parseInt(iter.next()));
 			 					}
 			 					if(iter.hasNext() && tempAccs[i].getNumberOfCheckingAccounts() > 0) {
 			 						for(int j = 0; j < tempAccs[i].getNumberOfCheckingAccounts(); j++) {
 			 							try {
+			 								
 											tempAccs[i].addCheckingAccount(CheckingAccount.readFromString(iter.next()));
+													
+										
 										} catch (ParseException e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
+											return false;
+										} catch (java.lang.NumberFormatException e) {
+											
+											System.out.println(e);
+											return false;
 										}
 			 						}
 			 						
@@ -186,21 +197,38 @@ public class MeritBank {
 			 						for(int j = 0; j < tempAccs[i].getNumberOfSavingsAccounts(); j++) {
 			 							try {
 			 								tempAccs[i].addSavingsAccount(SavingsAccount.readFromString(iter.next()));
-			 							}catch (ParseException e) {
-			 								e.printStackTrace();
-			 							}
+			 								
+			 							} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+											return false;
+										} catch (java.lang.NumberFormatException e) {
+											
+											System.out.println(e);
+											return false;
+										}
 			 						}
 			 					}
+			 					
 			 					if(iter.hasNext()) {
 			 						tempAccs[i].setNumberofCDAccounts(Integer.parseInt(iter.next()));
 			 					}
 			 					if(iter.hasNext() && tempAccs[i].getNumberOfCDAccounts() > 0) {
 			 						for(int j = 0; j < tempAccs[i].getNumberOfCDAccounts(); j++) {
 			 							try {
-			 								tempAccs[i].addCDAccount(CDAccount.readFromString(iter.next()));
-			 							}catch (ParseException e) {
-			 								e.printStackTrace();
-			 							}
+			 								if(iter.hasNext()) {
+			 									tempAccs[i].addCDAccount(CDAccount.readFromString(iter.next()));
+			 								}
+			 								
+			 							} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+											return false;
+										} catch (java.lang.NumberFormatException e) {
+											
+											System.out.println(e);
+											return false;
+										}
 			 						}
 			 					}
 			 					
@@ -208,10 +236,18 @@ public class MeritBank {
 			 					
 			 				}
 			 			}
+			 			for(int k = 0; k < tempAccs.length; k++) {
+								System.out.println("tempSav " + tempAccs[k].getSavingsBalance());
+							}
+			 
+			 			for(int i = 0; i < tempAccs.length; i++) {
+			 				MeritHolders = tempAccs.clone();
+			 			}
+			 			
 			 }
 		 }
 		 
-		 
+		
 		 return true;
 	 }
 	 
@@ -229,6 +265,12 @@ public class MeritBank {
 		 for(int i = 0; i < holderAccount.size();i++) {
 			 sortedHolder[i] = holderAccount.get(i);
 		 }
+		 
+		 System.out.println(sortedHolder[0].getCheckingBalance());
+		 System.out.println(sortedHolder[0].getSavingsBalance());
+		 System.out.println(sortedHolder[0].getCDBalance());
+
+		 
 		 return sortedHolder;
 	 }
 

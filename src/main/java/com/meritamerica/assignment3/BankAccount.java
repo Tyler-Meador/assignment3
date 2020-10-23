@@ -9,7 +9,7 @@ public class BankAccount {
 	
 	public long accountNumber;
 	public double balance;
-	public double interestRate;
+	public double interestRate = .01;
 	double futureValue;
     Date openedOn;
     
@@ -68,6 +68,8 @@ public class BankAccount {
 	}
 	
 	public double futureValue(int years) {
+		System.out.println(balance);
+		System.out.println(interestRate);
 		futureValue = balance * (Math.pow((1 + interestRate),years));
 		return futureValue;
 	}
@@ -80,8 +82,7 @@ public class BankAccount {
 		
 		String delimiter = ",";
 		BankAccount tempAccount = null;
-		
-		try {
+
 			String[] attributes = accountData.split(delimiter);
 			
 			long readNumber = Long.valueOf(attributes[0]);
@@ -89,14 +90,12 @@ public class BankAccount {
 			double readInterestRate = Double.valueOf(attributes[2]);
 			
 			
-			Date date1 = new SimpleDateFormat("MM/dd/yyyy").parse(attributes[3]);
+			Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(attributes[3]);
 			Date readOpenedOn = date1;
 			
 			tempAccount = new BankAccount(readNumber, readBalance, readInterestRate, readOpenedOn);
 			
-		}catch(java.lang.NumberFormatException e) {
-			System.out.println(e);
-		}
+
 		
 		return tempAccount;
 	}

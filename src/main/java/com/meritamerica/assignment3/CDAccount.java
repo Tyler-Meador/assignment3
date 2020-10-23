@@ -32,6 +32,7 @@ public class CDAccount extends BankAccount{
 	}
 	
 	public int getTerm() {
+		System.out.println("Igothere");
 		return myOffering.getTerm();
 	}
 	
@@ -44,12 +45,14 @@ public class CDAccount extends BankAccount{
 	}
 	
 	public double futureValue() {
-		return super.futureValue(0);
+		futureValue = balance * (Math.pow((1 + myOffering.getInterestRate()),myOffering.getTerm()));
+		return futureValue;
 	}
 	
-	public boolean withdraw(double amount, int term) {
-		boolean success = false; 
-		if(term >= myOffering.getTerm() ) {
+	@Override
+	public boolean withdraw(double amount) {
+		boolean success = false;
+		if(2020 > 2020 + myOffering.getTerm()) {
 			if (super.getBalance() > amount) {
 				super.balance = balance - amount;
 				success = true;
@@ -58,10 +61,11 @@ public class CDAccount extends BankAccount{
 		return success;
 		
 	}
-	
-	public boolean deposit(double amount, int term) {
+	@Override
+	public boolean deposit(double amount) {
 		boolean success = false;
-		if(term >= myOffering.getTerm()) {
+		
+		if(2020 > 2020 + myOffering.getTerm()) {
 			if(amount < 0) {
 				success = false;
 				return success;
@@ -83,23 +87,21 @@ public class CDAccount extends BankAccount{
 		String delimiter = ",";
 		CDAccount tempAccount = null;
 		CDOffering tempOffering = null;
-		try {
+
 			String[] attributes = accountData.split(delimiter);
 			
 			long readNumber = Long.valueOf(attributes[0]);
 			double readBalance = Double.valueOf(attributes[1]);
 			double readInterestRate = Double.valueOf(attributes[2]);
 			
-			Date date1 = new SimpleDateFormat("MM/dd/yyyy").parse(attributes[3]);
+			Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(attributes[3]);
 			Date readOpenedOn = date1;
 			
 			int readTerm = Integer.valueOf(attributes[4]);
 			
 			tempOffering = new CDOffering(readTerm, readInterestRate);
 			tempAccount = new CDAccount(tempOffering, readBalance, readNumber, readOpenedOn);
-		}catch(java.lang.NumberFormatException e) {
-			System.out.println(e);
-		}
+
 		
 		return tempAccount;
 	}

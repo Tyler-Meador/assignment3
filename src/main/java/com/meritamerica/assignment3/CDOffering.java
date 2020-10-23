@@ -27,17 +27,14 @@ public class CDOffering {
 		
 		String delimiter = ",";
 		CDOffering tempOffering = null;
-		try {
+
 			String[] attributes = cdOfferingDataString.split(delimiter);
 			
 			int readTerm = Integer.valueOf(attributes[0]);
-			double readInterestRate = Double.valueOf(attributes[2]);
-			
+			double readInterestRate = Double.valueOf(attributes[1]);
 			tempOffering = new CDOffering(readTerm, readInterestRate);
 
-		}catch(java.lang.NumberFormatException e) {
-			System.out.println(e);
-		}
+
 		
 		return tempOffering;
 	
